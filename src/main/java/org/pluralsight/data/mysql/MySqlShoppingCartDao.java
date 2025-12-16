@@ -40,7 +40,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
                     cart.getItems().put(results.getInt("quantity"),item );
 
                     return cart;
-                    
+
                 }
             }
 
@@ -49,6 +49,70 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         }
 
         return null;
+    }
+
+    @Override
+    public ShoppingCart add(int userId, int productId, int quantity) {
+        String sql = "INSERT INTO shopping_cart (user_id, product_id, quantity) " +
+                " VALUES (?, ?, ?);";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, userId);
+            statement.setInt(2, productId);
+            statement.setInt(3, quantity);
+
+
+
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public void update(int userId, int productId, int quantity) {
+        String sql = "UPDATE shopping_cart" +
+                " SET user_id = ?" +
+                " product_id = ?" +
+                " quantity = ?" +
+                " WHERE user_id = ? AND product_id = ?;";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, userId);
+            statement.setInt(2, productId);
+            statement.setInt(3, quantity);
+
+
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void delete(int userId, int productId) {
+        String sql = "DELETE FROM shopping_cart " +
+                " WHERE user_id = ? AND product_id = ?;";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, productId);
+
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
 
