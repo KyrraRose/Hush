@@ -6,14 +6,15 @@ import java.util.Map;
 
 public class ShoppingCart
 {
-    private Map<Integer, ShoppingCartItem> items = new HashMap<>();
+    private HashMap<Integer, ShoppingCartItem> items = new HashMap<>();
 
-    public Map<Integer, ShoppingCartItem> getItems()
+
+    public HashMap<Integer, ShoppingCartItem> getItems()
     {
         return items;
     }
 
-    public void setItems(Map<Integer, ShoppingCartItem> items)
+    public void setItems(HashMap<Integer, ShoppingCartItem> items)
     {
         this.items = items;
     }

@@ -1,5 +1,8 @@
 package org.pluralsight.data.mysql;
 
+import org.pluralsight.data.ShoppingCartDao;
+import org.pluralsight.models.ShoppingCart;
+import org.pluralsight.models.ShoppingCartItem;
 import org.springframework.stereotype.Component;
 import org.pluralsight.models.Product;
 import org.pluralsight.data.ProductDao;
@@ -211,6 +214,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
         }
     }
 
+
     protected static Product mapRow(ResultSet row) throws SQLException
     {
         int productId = row.getInt("product_id");
@@ -225,4 +229,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
 
         return new Product(productId, name, price, categoryId, description, subCategory, stock, isFeatured, imageUrl);
     }
+
+
+
 }
