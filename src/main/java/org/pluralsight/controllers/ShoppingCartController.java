@@ -1,6 +1,10 @@
 package org.pluralsight.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.pluralsight.data.ProductDao;
 import org.pluralsight.data.ShoppingCartDao;
@@ -10,8 +14,11 @@ import org.pluralsight.models.User;
 
 import java.security.Principal;
 
-// convert this class to a REST controller
-// only logged in users should have access to these actions
+
+@RestController
+@RequestMapping("/categories")
+@CrossOrigin(origins = "https://localhost:8080")
+@PreAuthorize("isAuthenticated()")
 public class ShoppingCartController
 {
     // a shopping cart requires

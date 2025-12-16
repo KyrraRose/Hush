@@ -2,6 +2,7 @@ package org.pluralsight.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.pluralsight.data.CategoryDao;
@@ -45,16 +46,17 @@ public class CategoriesController
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public Category getById(@PathVariable int id)
+    public ResponseEntity<Category> getById(@PathVariable int id)
     {
         try
         {
             var category = categoryDao.getById(id);
 
-            if(category == null)
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            if (category == null) {
+                return ResponseEntity.notFound().build();
+            }
 
-            return category;
+            return ResponseEntity.ok(category);
         }
         catch(Exception ex)
         {
@@ -90,25 +92,34 @@ public class CategoriesController
 
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Category addCategory(@RequestBody Category category)
+    public ResponseEntity<Category> addCategory(@RequestBody Category category)
     {
         try
         {
-            return categoryDao.create(category);
+            Category created = categoryDao.create(category);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
         }
         catch(Exception ex)
         {
+
+            ex.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void updateCategory(@PathVariable int id, @RequestBody Category category)
+    public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category)
     {
         try
         {
-            categoryDao.update(id, category);
+            Category updated = categoryDao.update(id, category);
+
+            if (updated == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(updated);
         }
         catch(Exception ex)
         {
@@ -118,7 +129,7 @@ public class CategoriesController
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteCategory(@PathVariable int id)
+    public ResponseEntity<Void> deleteCategory(@PathVariable int id)
     {
         try
         {
@@ -128,6 +139,8 @@ public class CategoriesController
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
             categoryDao.delete(id);
+
+            return ResponseEntity.noContent().build();
         }
         catch(Exception ex)
         {
