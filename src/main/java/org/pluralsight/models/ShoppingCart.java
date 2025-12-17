@@ -6,8 +6,24 @@ import java.util.Map;
 
 public class ShoppingCart
 {
-    private HashMap<Integer, ShoppingCartItem> items = new HashMap<>();
+    private HashMap<Integer, ShoppingCartItem> items;
+    private int userId;
+    private BigDecimal total;
 
+    public ShoppingCart(int userId) {
+        this.userId = userId;
+        this.items = new HashMap<>();
+        this.total = getTotal();
+
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public HashMap<Integer, ShoppingCartItem> getItems()
     {

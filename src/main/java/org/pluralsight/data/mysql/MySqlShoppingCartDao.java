@@ -35,7 +35,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
             try (ResultSet results = statement.executeQuery()) {
                 if (results.next()) {
-                    ShoppingCart cart = new ShoppingCart();
+                    ShoppingCart cart = new ShoppingCart(userId);
                     ShoppingCartItem item = new ShoppingCartItem(MySqlProductDao.mapRow(results),results.getInt("quantity"));
                     cart.getItems().put(results.getInt("quantity"),item );
 
@@ -63,6 +63,12 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             statement.setInt(2, productId);
             statement.setInt(3, quantity);
 
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                return null;
+            }
+
+            return getByUserId(userId);
 
 
         }
@@ -70,11 +76,11 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         {
             throw new RuntimeException(e);
         }
-        return null;
+
     }
 
     @Override
-    public void update(int userId, int productId, int quantity) {
+    public ShoppingCart update(int userId, int productId, int quantity) {
         String sql = "UPDATE shopping_cart" +
                 " SET user_id = ?" +
                 " product_id = ?" +
@@ -87,7 +93,15 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             statement.setInt(1, userId);
             statement.setInt(2, productId);
             statement.setInt(3, quantity);
+            statement.setInt(4, userId);
+            statement.setInt(5, productId);
 
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                return null;
+            }
+
+            return getByUserId(userId);
 
         }
         catch (SQLException e)
@@ -98,16 +112,50 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
 
     @Override
-    public void delete(int userId, int productId) {
+    public ShoppingCart delete(int userId, int productId) {
         String sql = "DELETE FROM shopping_cart " +
                 " WHERE user_id = ? AND product_id = ?;";
 
         try (Connection connection = getConnection())
         {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, productId);
+            statement.setInt(1, userId);
+            statement.setInt(2, productId);
 
-            statement.executeUpdate();
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                return null;
+            }
+
+            return getByUserId(userId);
+
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //clears entire cart
+    @Override
+    public ShoppingCart clear(int userId)
+    {
+
+        String sql = "DELETE FROM shopping_cart" +
+                "WHERE user_id = ?; ";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                return null;
+            }
+
+            return getByUserId(userId);
+
         }
         catch (SQLException e)
         {
