@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
-@CrossOrigin(origins = "https://localhost:8080")
+@CrossOrigin
 public class CategoriesController
 {
     private CategoryDao categoryDao;

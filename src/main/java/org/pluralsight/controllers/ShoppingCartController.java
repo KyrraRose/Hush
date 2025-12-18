@@ -16,7 +16,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "https://localhost:8080")
+@CrossOrigin
 @PreAuthorize("isAuthenticated()")
 public class ShoppingCartController
 {
