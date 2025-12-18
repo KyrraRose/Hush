@@ -1,5 +1,6 @@
 package org.pluralsight.data.mysql;
 
+import org.pluralsight.models.ShoppingCart;
 import org.springframework.stereotype.Component;
 import org.pluralsight.models.Profile;
 import org.pluralsight.data.ProfileDao;
@@ -66,6 +67,47 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
         {
             throw new RuntimeException(e);
         }
+    }
+    @Override
+    public Profile update(Profile profile, int userId) {
+        String sql = "UPDATE profiles" +
+                " SET " +
+                " first_name = ?," +
+                " last_name = ?," +
+                " phone = ?," +
+                " email = ?," +
+                " address = ?," +
+                " city = ?," +
+                " state = ?," +
+                " zip = ?" +
+                " WHERE user_id = ?;";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, profile.getFirstName());
+            ps.setString(2, profile.getLastName());
+            ps.setString(3, profile.getPhone());
+            ps.setString(4, profile.getEmail());
+            ps.setString(5, profile.getAddress());
+            ps.setString(6, profile.getCity());
+            ps.setString(7, profile.getState());
+            ps.setString(8, profile.getZip());
+            ps.setInt(9,userId);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                return null;
+            }
+
+            return getById(userId);
+
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public Profile mapRow(ResultSet results) throws SQLException{
