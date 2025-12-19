@@ -3,7 +3,7 @@
 # Hush Records
 ## Capstone 3 - Record Shop
 
-Welcome to my readme for Hush Records! This project is my final capstone. We were tasked with debugging, developing and improving an online store!
+Welcome to my readme for Hush Records! This project is my final capstone. We were tasked with debugging, developing, testing, and improving an online store!
 
 ### Features
 - Responsive website layout
@@ -17,7 +17,7 @@ Welcome to my readme for Hush Records! This project is my final capstone. We wer
 - Open index.html in a browser
 
 ### Accessibility & Styling Improvements
-Special attention was given to accessibility and visual contrast. Previously, the header especially did not meet WCAG contrast guidelines. Below are examples, we want to reach a contrast ratio of at least 4.5:1 for normal text, and 3:1 for large text. Additionally, I updated the product listing for better uniform visual heirarchy.
+Special attention was given to accessibility and visual contrast. Previously, the header did not meet WCAG contrast guidelines. Below are examples; we want to reach a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text. Additionally, I updated the product listing for a better uniform visual hierarchy.
 
 #### Here is the old header:
 <img width="1919" height="87" alt="Screenshot of the old header, low contrast" src="https://github.com/user-attachments/assets/20750aef-ab2b-4b83-93dd-667504a857ad" />
@@ -33,8 +33,11 @@ In addition to the core requirements, the following optional phases were complet
 - Phase 3: Shopping cart functionality
 - Phase 4: Profile functionality
 
+### Insomnia Testing
+For this project, we needed to test our changes along the way with insomnia. Looking at the structure of the insomnia tests was hugely helpful! All of the tests should work, except the checkout functionality tests.
+
 ### Challenges & Learning Takeaways
-One of the main challenges I faced was navigating a RESTful API. I learned more about mapping. I also learned to keep security in mind when using springboot and Cross-Origin Resource Sharing. The most important thing, I think, is to make sure my pathing between files makes sense and is correct.
+One of the main challenges I faced was navigating a RESTful API. I learned more about mapping. I also learned to keep security in mind when using springboot and Cross-Origin Resource Sharing. The most important thing I have found is to make sure my pathing between files makes sense and is correct.
 
 
 
