@@ -23,7 +23,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     //Shopping Cart Methods
     @Override
     public ShoppingCart getByUserId(int userId) {
-        String query = "SELECT * From shopping_cart AS s" +
+        String query = "SELECT * From shopping_cart AS s " +
                 " JOIN products AS p ON p.product_id = s.product_id" +
                 " WHERE user_id = ?;";
 
@@ -81,7 +81,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
     @Override
     public ShoppingCart update(int userId, int productId, int quantity) {
-        String sql = "UPDATE shopping_cart" +
+        String sql = "UPDATE shopping_cart " +
                 " SET user_id = ?" +
                 " product_id = ?" +
                 " quantity = ?" +
@@ -141,8 +141,8 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     public ShoppingCart clear(int userId)
     {
 
-        String sql = "DELETE FROM shopping_cart" +
-                "WHERE user_id = ?; ";
+        String sql = "DELETE FROM shopping_cart " +
+                " WHERE user_id = ?; ";
 
         try (Connection connection = getConnection())
         {
@@ -159,6 +159,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         }
         catch (SQLException e)
         {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
